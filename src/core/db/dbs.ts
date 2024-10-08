@@ -1,4 +1,4 @@
-import PlaygroundDb from "./playgroundDb";
+import PlaygroundDb from './playgroundDb';
 
 class DBS {
     private static _playgroundDb: PlaygroundDb;

@@ -1,15 +1,16 @@
 import DataSourceCore from './databaseCore';
+import { config } from "node-config-ts";
 
 class PlaygroundDb extends DataSourceCore {
 
     constructor() {
         super({
-            type: 'mysql',
-            host: 'localhost',
-            port: 3306,
-            username: 'appuser',
-            password: 'secret99',
-            database: 'playgroundDb',
+            type: config.db.type,
+            host: config.db.host,
+            port: config.db.port,
+            username: config.db.DB_USER,
+            password: config.db.DB_PASSWORD,
+            database: config.db.database,
             synchronize: true,
             logging: false,
             entities: ['src/entity/**/*.ts'],

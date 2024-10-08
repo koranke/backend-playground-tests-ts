@@ -1,4 +1,4 @@
-import DBS from '../src/core/dbs';
+import DBS from '../src/core/db/dbs';
 
 test('should fetch users', async () => {
     const users = await DBS.playgroundDb.executeQuery('SELECT * FROM user');

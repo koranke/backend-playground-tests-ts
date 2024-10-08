@@ -10,6 +10,6 @@
     "rootDir": ".",
     "moduleResolution": "node"
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "src/jest.setup.ts", "src/jest.teardown.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts", "src/jest.setup.ts", "src/jest.teardown.ts", "config/*.ts"],
   "exclude": ["node_modules"]
 }

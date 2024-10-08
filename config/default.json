@@ -1,0 +1,12 @@
+{
+    "db": {
+        "type": "mysql",
+        "host": "localhost",
+        "port": 3306,
+        "database": "playgroundDb",
+        "DB_USER": "@@DB_USER",
+        "DB_PASSWORD": "@@DB_PASSWORD"
+    },
+    "baseUserServiceUrl": "http://localhost:8081/api/",
+    "basePostServiceUrl": "http://localhost:8081/api/"
+}

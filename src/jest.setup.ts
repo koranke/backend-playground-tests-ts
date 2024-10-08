@@ -1,4 +1,4 @@
-import DBS from "./core/dbs";
+import DBS from "./core/db/dbs";
 
 afterAll(async () => {
     await DBS.playgroundDb.close();

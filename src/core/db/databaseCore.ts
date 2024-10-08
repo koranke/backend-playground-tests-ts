@@ -13,9 +13,6 @@ class DataSourceCore {
     }
 
     public async executeQuery(query: string): Promise<any> {
-        // if (!this.dataSource) {
-        //     throw new Error('DataSource not initialized');
-        // }
         await this.initialize();
         return await this.dataSource.query(query);
     }
