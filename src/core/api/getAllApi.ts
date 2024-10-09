@@ -1,16 +1,10 @@
 import { ApiBase } from './apiBase'
 
-export class GetSingleApi<T> extends ApiBase<GetSingleApi<T>> {
+export class GetAllApi<T> extends ApiBase<GetAllApi<T>> {
     private parentId!: string
-    private id!: string
 
-    withParentId(parentId: string): GetSingleApi<T> {
+    withParentId(parentId: string): GetAllApi<T> {
         this.parentId = parentId
-        return this
-    }
-
-    withId(id: string): GetSingleApi<T> {
-        this.id = id
         return this
     }
 
@@ -23,14 +17,14 @@ export class GetSingleApi<T> extends ApiBase<GetSingleApi<T>> {
         if (this.parentId) {
             this.baseUrl = `${this.baseUrl}/${this.parentId}`
         }
-        return this.get(this.id)
+        return this.get("")
     }
 
-    async call(): Promise<T> {
+    async call(): Promise<T[]> {
         return this.tryCall().then(async (response) => {
             if (response.ok) {
                 const data = await response.json()
-                return data as T
+                return data as T[]
             }
             throw new Error(response.statusText)
         })

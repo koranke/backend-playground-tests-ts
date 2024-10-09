@@ -1,14 +1,14 @@
 export class User {
     constructor(
-        public id: number,
-        public firstName: string,
-        public lastName: string,
+        public id: number | null,
+        public firstName: string | null,
+        public lastName: string | null,
         public email: string,
-        public phone: string,
-        public dateOfBirth: Date
+        public phone: string | null,
+        public dateOfBirth: string | null
     ) {}
 
     getFullName(): string {
-        return `${this.firstName} ${this.lastName}`;
+        return `${this.firstName} ${this.lastName}`
     }
 }

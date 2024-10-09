@@ -1,5 +1,7 @@
-import DataSourceCore from './databaseCore';
+import DataSourceCore from '../../core/db/databaseCore';
 import { config } from "node-config-ts";
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { User } from '../entities/userEntity';
 
 class PlaygroundDb extends DataSourceCore {
 
@@ -11,12 +13,18 @@ class PlaygroundDb extends DataSourceCore {
             username: config.db.DB_USER,
             password: config.db.DB_PASSWORD,
             database: config.db.database,
-            synchronize: true,
+            namingStrategy: new SnakeNamingStrategy(),
+            synchronize: false,
             logging: false,
-            entities: ['src/entity/**/*.ts'],
+            entities: ['src/backendPlayground/entities/**/*.ts'],
             migrations: ['src/migration/**/*.ts'],
             subscribers: ['src/subscriber/**/*.ts'],
         });
+    }
+
+    public async getUserById(id: number) {
+        const manager = await this.getManager();
+        return await manager.findOne(User, { where: { id } });
     }
 }
 

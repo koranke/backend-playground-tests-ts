@@ -4,7 +4,7 @@ export class ApiBase<T> {
     protected baseUrl!: string
     protected headers!: Headers
     protected queryParams!: URLSearchParams
-    protected contentType!: string
+    protected contentType: string = 'application/json'
     protected accept!: string
     protected authorization!: string
     protected authtype!: AuthType
@@ -107,7 +107,8 @@ export class ApiBase<T> {
         console.log(`headers: ${this.headers?.forEach((value, name) => `${name}: ${value}`)}`)
         console.log(`queryParams: ${this.queryParams}`)
         if (body) {
-            console.log(`body: ${body}`)
+            const bodyContent = typeof body === 'string' ? body : JSON.stringify(body);
+            console.log(`body: ${bodyContent}`)
         }
     }
 
@@ -117,7 +118,8 @@ export class ApiBase<T> {
         console.log(`statusText: ${response.statusText}`)
         console.log(`headers: ${response.headers?.forEach((value, name) => `${name}: ${value}`)}`)
         if (response.body) {
-            console.log(`body: ${response.body}`)
+            const bodyContent = typeof response.body === 'string' ? response.body : JSON.stringify(response.body);
+            console.log(`body: ${bodyContent}`)
         }
     }
 }

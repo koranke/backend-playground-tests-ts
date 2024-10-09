@@ -1,15 +1,15 @@
-import { ApiBase } from './apiBase'
+import { ApiBase } from './apiBase';
 
-export class GetSingleApi<T> extends ApiBase<GetSingleApi<T>> {
+export class DeleteApi extends ApiBase<DeleteApi> {
     private parentId!: string
     private id!: string
 
-    withParentId(parentId: string): GetSingleApi<T> {
+    withParentId(parentId: string): DeleteApi {
         this.parentId = parentId
         return this
     }
 
-    withId(id: string): GetSingleApi<T> {
+    withId(id: string): DeleteApi {
         this.id = id
         return this
     }
@@ -23,16 +23,15 @@ export class GetSingleApi<T> extends ApiBase<GetSingleApi<T>> {
         if (this.parentId) {
             this.baseUrl = `${this.baseUrl}/${this.parentId}`
         }
-        return this.get(this.id)
+        return this.delete(this.id)
     }
 
-    async call(): Promise<T> {
+    async call(): Promise<Response> {
         return this.tryCall().then(async (response) => {
             if (response.ok) {
-                const data = await response.json()
-                return data as T
+                return response
             }
-            throw new Error(response.statusText)
+            throw new Error(response.statusText);
         })
     }
 }
