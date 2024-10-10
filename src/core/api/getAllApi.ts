@@ -1,12 +1,6 @@
 import { ApiBase } from './apiBase'
 
 export class GetAllApi<T> extends ApiBase<GetAllApi<T>> {
-    private parentId!: string
-
-    withParentId(parentId: string): GetAllApi<T> {
-        this.parentId = parentId
-        return this
-    }
 
     constructor(baseUrl: string) {
         super()
@@ -15,7 +9,7 @@ export class GetAllApi<T> extends ApiBase<GetAllApi<T>> {
 
     async tryCall(): Promise<Response> {
         if (this.parentId) {
-            this.baseUrl = `${this.baseUrl}/${this.parentId}`
+            this.baseUrl = this.baseUrl.replace('%s', this.parentId)
         }
         return this.get("")
     }

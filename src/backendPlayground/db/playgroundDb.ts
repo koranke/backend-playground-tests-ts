@@ -1,7 +1,7 @@
-import DataSourceCore from '../../core/db/databaseCore';
-import { config } from "node-config-ts";
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { User } from '../entities/userEntity';
+import DataSourceCore from '../../core/db/databaseCore'
+import { config } from "node-config-ts"
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
+import { User } from '../entities/userEntity'
 
 class PlaygroundDb extends DataSourceCore {
 
@@ -19,13 +19,13 @@ class PlaygroundDb extends DataSourceCore {
             entities: ['src/backendPlayground/entities/**/*.ts'],
             migrations: ['src/migration/**/*.ts'],
             subscribers: ['src/subscriber/**/*.ts'],
-        });
+        })
     }
 
-    public async getUserById(id: number) {
-        const manager = await this.getManager();
-        return await manager.findOne(User, { where: { id } });
-    }
+    // public async getUserById(id: number) {
+    //     const manager = await this.getManager()
+    //     return await manager.findOne(User, { where: { id } })
+    // }
 }
 
 export default PlaygroundDb;

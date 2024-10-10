@@ -1,19 +1,7 @@
 import { ApiBase } from './apiBase'
 
 export class UpdateApi<T> extends ApiBase<UpdateApi<T>> {
-    private parentId!: string
-    private id!: string
     private body!: any
-
-    withParentId(parentId: string): UpdateApi<T> {
-        this.parentId = parentId
-        return this
-    }
-
-    withId(id: string): UpdateApi<T> {
-        this.id = id
-        return this
-    }
 
     withBody(body: any): UpdateApi<T> {
         this.body = body
@@ -27,7 +15,7 @@ export class UpdateApi<T> extends ApiBase<UpdateApi<T>> {
 
     async tryCall(): Promise<Response> {
         if (this.parentId) {
-            this.baseUrl = `${this.baseUrl}/${this.parentId}`
+            this.baseUrl = this.baseUrl.replace('%s', this.parentId)
         }
         return this.put(this.id, this.body)
     }

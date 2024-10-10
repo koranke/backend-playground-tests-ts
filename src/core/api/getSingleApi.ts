@@ -1,18 +1,6 @@
 import { ApiBase } from './apiBase'
 
 export class GetSingleApi<T> extends ApiBase<GetSingleApi<T>> {
-    private parentId!: string
-    private id!: string
-
-    withParentId(parentId: string): GetSingleApi<T> {
-        this.parentId = parentId
-        return this
-    }
-
-    withId(id: string): GetSingleApi<T> {
-        this.id = id
-        return this
-    }
 
     constructor(baseUrl: string) {
         super()
@@ -21,7 +9,7 @@ export class GetSingleApi<T> extends ApiBase<GetSingleApi<T>> {
 
     async tryCall(): Promise<Response> {
         if (this.parentId) {
-            this.baseUrl = `${this.baseUrl}/${this.parentId}`
+            this.baseUrl = this.baseUrl.replace('%s', this.parentId)
         }
         return this.get(this.id)
     }

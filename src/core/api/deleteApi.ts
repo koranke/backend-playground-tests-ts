@@ -1,18 +1,6 @@
-import { ApiBase } from './apiBase';
+import { ApiBase } from './apiBase'
 
 export class DeleteApi extends ApiBase<DeleteApi> {
-    private parentId!: string
-    private id!: string
-
-    withParentId(parentId: string): DeleteApi {
-        this.parentId = parentId
-        return this
-    }
-
-    withId(id: string): DeleteApi {
-        this.id = id
-        return this
-    }
 
     constructor(baseUrl: string) {
         super()
@@ -21,7 +9,7 @@ export class DeleteApi extends ApiBase<DeleteApi> {
 
     async tryCall(): Promise<Response> {
         if (this.parentId) {
-            this.baseUrl = `${this.baseUrl}/${this.parentId}`
+            this.baseUrl = this.baseUrl.replace('%s', this.parentId)
         }
         return this.delete(this.id)
     }

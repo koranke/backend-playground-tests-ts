@@ -1,4 +1,5 @@
-import { AuthType } from '../../types/authType';
+import { AuthType } from '../../types/authType'
+import { logger } from '../utilities/logging'
 
 export class ApiBase<T> {
     protected baseUrl!: string
@@ -8,6 +9,19 @@ export class ApiBase<T> {
     protected accept!: string
     protected authorization!: string
     protected authtype!: AuthType
+
+    protected parentId!: string
+    protected id!: string
+
+    withParentId(parentId: StringOrNumber): T {
+        this.parentId = parentId.toString()
+        return this as unknown as T
+    }
+
+    withId(id: StringOrNumber): T {
+        this.id = id.toString()
+        return this as unknown as T
+    }
 
     withHeader(key: string, value: string): T {
         if (this.headers == null) {
@@ -101,25 +115,31 @@ export class ApiBase<T> {
     }
 
     logRequestDetails(method: string, endpoint: string, body: any): void {
-        console.log('\nRequest Details:')
-        console.log(`method: ${method}`)
-        console.log(`endpoint: ${endpoint}`)
-        console.log(`headers: ${this.headers?.forEach((value, name) => `${name}: ${value}`)}`)
-        console.log(`queryParams: ${this.queryParams}`)
-        if (body) {
-            const bodyContent = typeof body === 'string' ? body : JSON.stringify(body);
-            console.log(`body: ${bodyContent}`)
-        }
+        const headers = this.headers ? Array.from(this.headers.entries()).map(([name, value]) => `${name}: ${value}`).join(', ') : ''
+        const bodyContent = body ? (typeof body === 'string' ? body : JSON.stringify(body)) : ''
+        const logMessage = `
+            Request Details:
+            method: ${method}
+            endpoint: ${endpoint}
+            headers: ${headers}
+            queryParams: ${this.queryParams}
+            body: ${bodyContent}
+        `.trim().replace(/\s+/g, ' ')
+
+        logger.info(logMessage)
     }
 
     logResponseDetails(response: Response): void {
-        console.log('\nResponse Details:')
-        console.log(`status: ${response.status}`)
-        console.log(`statusText: ${response.statusText}`)
-        console.log(`headers: ${response.headers?.forEach((value, name) => `${name}: ${value}`)}`)
-        if (response.body) {
-            const bodyContent = typeof response.body === 'string' ? response.body : JSON.stringify(response.body);
-            console.log(`body: ${bodyContent}`)
-        }
+        const headers = response.headers ? Array.from(response.headers.entries()).map(([name, value]) => `${name}: ${value}`).join(', ') : ''
+        const bodyContent = response.body ? (typeof response.body === 'string' ? response.body : JSON.stringify(response.body)) : ''
+        const logMessage = `
+            Response Details:
+            status: ${response.status}
+            statusText: ${response.statusText}
+            headers: ${headers}
+            body: ${bodyContent}
+        `.trim().replace(/\s+/g, ' ')
+
+        logger.info(logMessage)
     }
 }

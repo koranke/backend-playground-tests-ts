@@ -1,10 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import "reflect-metadata";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import "reflect-metadata"
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id!: number
+    id?: number | null
 
     @Column()
     firstName!: string
@@ -15,9 +15,9 @@ export class User {
     @Column()
     email!: string
 
-    @Column()
-    phone?: string
+    @Column({ type: 'varchar', nullable: true })
+    phone?: string | null;
 
-    @Column()
-    dateOfBirth?: string
+    @Column({ type: 'varchar', nullable: true })
+    dateOfBirth?: string | null;
 }

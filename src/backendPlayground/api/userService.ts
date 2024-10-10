@@ -1,6 +1,6 @@
 import { config } from "node-config-ts"
 import { GetSingleApi } from "../../core/api/getSingleApi"
-import { User } from "../models/user"
+import { User } from "../entities/userEntity"
 import { CreateApi } from "../../core/api/createApi"
 import { UpdateApi } from "../../core/api/updateApi"
 import { PaginatedUserResponse } from "../models/paginatedUserResponse"
@@ -12,7 +12,7 @@ export class UserService {
 
     private constructor() {}
 
-    public static getById(id: string): GetSingleApi<User> {
+    public static getById(id: StringOrNumber): GetSingleApi<User> {
         return new GetSingleApi<User>(this.baseUrl).withId(id)
     }
 
@@ -24,11 +24,11 @@ export class UserService {
         return new CreateApi<User>(this.baseUrl).withBody(user)
     }
 
-    public static update(id: string, user: User): UpdateApi<User> {
+    public static update(id: StringOrNumber, user: User): UpdateApi<User> {
         return new UpdateApi<User>(this.baseUrl).withId(id).withBody(user)
     }
 
-    public static delete(id: string): DeleteApi {
+    public static delete(id: StringOrNumber): DeleteApi {
         return new DeleteApi(this.baseUrl).withId(id)
     }
 }

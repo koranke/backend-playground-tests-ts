@@ -1,9 +1,9 @@
 import { ScenarioCore } from '../../core/utilities/scenarioCore'
 import { UserService } from '../api/userService'
-import { fa, faker } from '@faker-js/faker'
-import { User } from '../models/user'
-// import { PostScenario } from './PostScenario'
-// import { Post } from './Post'
+import { faker } from '@faker-js/faker'
+import { User } from '../entities/userEntity'
+import { PostScenario } from './postScenario'
+import { Post } from '../entities/postEntity'
 
 export class UserScenario extends ScenarioCore {
     private _numberOfPosts: number | null = null
@@ -13,7 +13,7 @@ export class UserScenario extends ScenarioCore {
     private _email: string | null = null
     private _phone: string | null = null
     private _dateOfBirth: string | null = null
-    // private postScenarios: PostScenario[] | null = null
+    private _postScenarios: PostScenario[] | null = null
 
     public withDefaults(): UserScenario {
         if (this.needsDefaultValuesPopulated) {
@@ -22,11 +22,12 @@ export class UserScenario extends ScenarioCore {
             this._email = this.getNonNull(this._email, faker.internet.email())
             this._numberOfPosts = this.getNonNull(this._numberOfPosts, 0)
             if (this._numberOfPosts! > 0) {
-                // this.postScenarios = []
-                // for (let i = 0; i < this.numberOfPosts; i++) {
-                //     this.postScenarios.push(new PostScenario().withDefaults())
-                // }
+                this._postScenarios = []
+                for (let i = 0; i < this.numberOfPosts; i++) {
+                    this._postScenarios.push(new PostScenario().withDefaults())
+                }
             }
+            this.needsDefaultValuesPopulated = false
         }
         return this
     }
@@ -34,27 +35,26 @@ export class UserScenario extends ScenarioCore {
     public async create(): Promise<UserScenario> {
         this.withDefaults()
         const user = await UserService.create(this.getAsUser()).call()
-        this._id = user.id
+        this._id = user.id!
 
-        // if (this.postScenarios !== null) {
-        //     for (const postScenario of this.postScenarios) {
-        //         postScenario.withUserId(this.id)
-        //         postScenario.create()
-        //     }
-        // }
+        if (this._postScenarios !== null) {
+            for (const postScenario of this._postScenarios) {
+                postScenario.withUserId(this.id)
+                await postScenario.create()
+            }
+        }
         return this
     }
 
     public getAsUser(): User {
-        const user = new User(
-            this._id!,
-            this._firstName!,
-            this._lastName!,
-            this._email!,
-            this._phone,
-            this._dateOfBirth
-        )
-        return user
+        return {
+            id: this._id!,
+            firstName: this._firstName!,
+            lastName: this._lastName!,
+            email: this._email!,
+            phone: this._phone,
+            dateOfBirth: this._dateOfBirth
+        }
     }
 
     get numberOfPosts(): number {
@@ -85,6 +85,20 @@ export class UserScenario extends ScenarioCore {
         return this._dateOfBirth!
     }
 
+    get postScenarios(): PostScenario[] {
+        return this._postScenarios!
+    }
+
+    get posts(): Post[] {
+        const posts: Post[] = []
+        if (this._postScenarios !== null) {
+            for (const postScenario of this._postScenarios) {
+                posts.push(postScenario.getAsPost())
+            }
+        }
+        return posts
+    }
+
     public withFirstName(firstName: string | null): UserScenario {
         this._firstName = firstName
         return this
@@ -110,26 +124,16 @@ export class UserScenario extends ScenarioCore {
         return this
     }
 
-    // public withPost(postScenario: PostScenario): UserScenario {
-    //     if (this.postScenarios === null) {
-    //         this.postScenarios = []
-    //     }
-    //     this.postScenarios.push(postScenario)
-    //     return this
-    // }
+    public withPost(postScenario: PostScenario): UserScenario {
+        if (this._postScenarios === null) {
+            this._postScenarios = []
+        }
+        this._postScenarios.push(postScenario)
+        return this
+    }
 
     public withNumberOfPosts(numberOfPosts: number): UserScenario {
         this._numberOfPosts = numberOfPosts
         return this
     }
-
-    // public getPosts(): Post[] {
-    //     const posts: Post[] = []
-    //     if (this.postScenarios !== null) {
-    //         for (const postScenario of this.postScenarios) {
-    //             posts.push(postScenario.getAsPost())
-    //         }
-    //     }
-    //     return posts
-    // }
 }
