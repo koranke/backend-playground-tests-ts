@@ -1,4 +1,4 @@
-import { AuthType } from '../../types/authType'
+import { AuthType } from '../enums/authType'
 import { logger } from '../utilities/logging'
 
 export class ApiBase<T> {

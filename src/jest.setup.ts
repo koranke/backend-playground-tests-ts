@@ -1,9 +1,5 @@
 import DBS from "./core/db/dbs"
-import { logger, rotateLogs } from "./core/utilities/logging"
-
-// beforeAll(() => {
-//     rotateLogs()
-// })
+import { logger } from "./core/utilities/logging"
 
 beforeEach(() => {
     const testName = expect.getState().currentTestName
@@ -18,4 +14,8 @@ afterEach(() => {
 afterAll(async () => {
     logger.info('Closing DB connections')
     await DBS.playgroundDb.close()
+})
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason)
 })
