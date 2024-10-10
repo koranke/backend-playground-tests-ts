@@ -94,7 +94,7 @@ test('Should return error if duplicate user.', async () => {
     })
 })
 
-test('Cam update a user.', async () => {
+test('Can update a user.', async () => {
     // SETUP
     const userScenario = await new UserScenario().create()
     const userFromScenario = userScenario.getAsUser()

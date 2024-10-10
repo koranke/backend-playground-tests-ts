@@ -1,14 +1,20 @@
+import { createLogger, format, transports } from "winston"
 import DBS from "./core/db/dbs"
-import { logger } from "./core/utilities/logging"
+import { archiveLog, logger } from "./core/utilities/logging"
+import path from "path"
+import { Worker, isMainThread, workerData } from "worker_threads"
+import { ar } from "@faker-js/faker/."
 
 beforeEach(() => {
     const testName = expect.getState().currentTestName
-    logger.info(`Starting test: ${testName}`)
+    logger.info('')
+    logger.info(`STARTING TEST: ${testName}`)
 })
 
 afterEach(() => {
     const testName = expect.getState().currentTestName
-    logger.info(`Finished test: ${testName}`)
+    logger.info(`FINISHED TEST: ${testName}`)
+    logger.info('')
 })
 
 afterAll(async () => {
