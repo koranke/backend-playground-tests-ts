@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 import "reflect-metadata"
 
-@Entity()
+@Entity("users")
 export class User {
     @PrimaryGeneratedColumn()
     id?: number | null

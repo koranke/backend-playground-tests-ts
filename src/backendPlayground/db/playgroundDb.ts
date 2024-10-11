@@ -21,11 +21,6 @@ class PlaygroundDb extends DataSourceCore {
             subscribers: ['src/subscriber/**/*.ts'],
         })
     }
-
-    // public async getUserById(id: number) {
-    //     const manager = await this.getManager()
-    //     return await manager.findOne(User, { where: { id } })
-    // }
 }
 
 export default PlaygroundDb;

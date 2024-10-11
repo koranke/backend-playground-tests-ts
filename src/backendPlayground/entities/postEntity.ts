@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 import { PostVisibility } from '../enums/postVisibility'
 
-@Entity()
+@Entity("posts")
 export class Post {
     @PrimaryGeneratedColumn()
     id!: number
